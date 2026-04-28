@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- FIX MOBILE + iOS + MODAL BUGS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <title>Pokédex Mobile PWA</title>
+    <meta name="description" content="Sua Pokédex Mobile interativa com evoluções e stats.">
+
+    <meta name="theme-color" content="#e3350d">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<main class="container">
+
+    <header class="header">
+        <div class="header-top">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokébola" class="header-icon">
+            <h1>Pokédex</h1>
+        </div>
+        <p>Explore o mundo Pokémon!</p>
+    </header>
+
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Busque por nome ou ID..." aria-label="Buscar Pokémon">
+        <button id="search-btn" aria-label="Botão de buscar">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+    </div>
+
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Destaques do Dia</h2>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png" alt="Icone" width="20" height="20">
+        </div>
+        <div class="dashboard" id="dashboard"></div>
+    </section>
+
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title" id="titulo-lista">Todos os Pokémon</h2>
+        </div>
+
+        <div class="type-filters">
+            <button class="type-btn" data-type="fire" style="--btn-color: #FD7D24;">🔥 Fogo</button>
+            <button class="type-btn" data-type="water" style="--btn-color: #4A90DA;">💧 Água</button>
+            <button class="type-btn" data-type="grass" style="--btn-color: #62B957;">🌿 Planta</button>
+            <button class="type-btn" data-type="electric" style="--btn-color: #EED535;">⚡ Elétrico</button>
+            <button class="type-btn" data-type="ground" style="--btn-color: #DD7748;">🪨 Terra</button>
+            <button class="type-btn" data-type="psychic" style="--btn-color: #EA5D60;">🔮 Psíquico</button>
+            <button class="type-btn" data-type="poison" style="--btn-color: #A552CC;">☠️ Veneno</button>
+            <button class="type-btn" data-type="bug" style="--btn-color: #8CB230;">🐛 Inseto</button>
+            <button class="type-btn clear-btn" id="btn-limpar-filtro">❌ Limpar</button>
+        </div>
+
+        <div id="pokemon-list" class="grid"></div>
+    </section>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+
+            <!-- ajuda mobile (teclado e scroll seguro) -->
+            <div tabindex="0"></div>
+
+            <button id="close" aria-label="Fechar detalhes">&times;</button>
+
+            <div id="pokemon-details"></div>
+
+            <h3 class="evo-title">Evoluções</h3>
+            <div id="evolutions" class="evolutions"></div>
+
+        </div>
+    </div>
+
+</main>
+
+<script src="app.js"></script>
+
+<script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(reg => console.log('SW registrado com sucesso.'))
+                .catch(err => console.log('Falha no SW:', err));
+        });
+    }
+</script>
+
+</body>
+</html>
